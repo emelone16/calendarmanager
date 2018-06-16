@@ -1,0 +1,14 @@
+{
+  "name": "calendarmanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "shell.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^27.0.0"
+  }
+}
