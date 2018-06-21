@@ -1,7 +1,4 @@
-const CalendarManager = require("./CalendarManager");
-const CalendarAuthorizer = require("./CalendarAuthorizer");
+const CalendarShell = require("./CalendarShell");
 
-const authorizer = new CalendarAuthorizer();
-const manager = new CalendarManager(authorizer.oAuth2Client);
-
-manager.createAssignment("Yay!", "2018-06-20");
+const shell = new CalendarShell();
+shell.start();
