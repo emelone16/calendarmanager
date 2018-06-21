@@ -28,6 +28,7 @@ class CalendarManager {
                 return;
             }
             console.log('Event created: %s', event.data.htmlLink);
+            process.stdout.write("> ");
         });
     }
 }
