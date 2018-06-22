@@ -32,6 +32,11 @@ class CalendarShell {
         } else if(line.match(/^create \"([\w\s\-]+)\" (\d+)\-(\d+)\-(\d+)$/)) {
             const args = line.match(/^create \"([\w\s\-]+)\" (\d+)\-(\d+)\-(\d+)$/);
             this.manager.createAssignment(args[1], args[2] + "-" + args[3] + "-" + args[4]);
+        } else if(line.match(/^switch (\w+)$/)) {
+            const args = line.match(/^switch (\w+)$/)
+            this.manager.switchCalendar(args[1]);
+        } else if(line.match(/^currentCalendar$/)) {
+            process.stdout.write(this.manager.currentCalendar + "\n> ");
         } else {
             const args = line.match(/^(\w+)/)
             console.log("Could not recognize command: " + args[1])
