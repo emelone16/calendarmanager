@@ -1,10 +1,13 @@
-const {google} = require('googleapis')
+const {google} = require('googleapis');
+const CalendarId = require('./CalendarId');
 
 class CalendarManager {
 
     constructor(auth) {
         this.auth = auth
         this.calendar = google.calendar({version: 'v3', auth: this.auth});
+        this.calendarId = 'primary';
+        this.currentCalendar = 'primary';
     }
 
     createAssignment(summary, date) {
@@ -20,7 +23,7 @@ class CalendarManager {
           
         this.calendar.events.insert({
             auth: this.auth,
-            calendarId: 'primary',
+            calendarId: this.calendarId,
             resource: event,
         }, function(err, event) {
             if (err) {
@@ -30,6 +33,16 @@ class CalendarManager {
             console.log('Event created: %s', event.data.htmlLink);
             process.stdout.write("> ");
         });
+    }
+
+    switchCalendar(id) {
+        if(CalendarId[id]) {
+            this.calendarId = CalendarId[id];
+            this.currentCalendar = id;
+            process.stdout.write("Switched to: " + id + "\n> ");
+        } else {
+            process.stdout.write("Error: Unknown ID\n> ");
+        }
     }
 }
 

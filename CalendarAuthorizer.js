@@ -12,9 +12,9 @@ class CalendarAuthorizer {
         try {
             const content = fs.readFileSync('client_secret.json');
             this.authorize(JSON.parse(content));
-          } catch (err) {
+        } catch (err) {
             return console.log('Error loading client secret file:', err);
-          }
+        }
     }
 
     /**
