@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const CalendarId = new function() {
     try {
-        const file = fs.readFileSync("calendar_ids.json");
+        const file = fs.readFileSync("./config/calendar_ids.json");
         fileJson = JSON.parse(file);
 
         return fileJson;
