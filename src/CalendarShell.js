@@ -1,5 +1,7 @@
-const CalendarManager = require("./CalendarManager");
 const CalendarAuthorizer = require("./CalendarAuthorizer");
+const CalendarCommands = require('./CalendarCommands');
+const CalendarManager = require("./CalendarManager");
+const CommandInterpreter = require("./CommandInterpreter");
 const readline = require("readline");
 
 class CalendarShell {
@@ -22,25 +24,28 @@ class CalendarShell {
 
         this.rl.on('line', (input) => {
             this.process(input);
+            process.stdout.write("> ");
         });
 
     }
 
     process(line) {
-        if(line == "exit") {
+        if (line == "exit") {
             this.rl.close();
-        } else if(line.match(/^create \"([\w\s\-]+)\" (\d+)\-(\d+)\-(\d+)$/)) {
-            const args = line.match(/^create \"([\w\s\-]+)\" (\d+)\-(\d+)\-(\d+)$/);
-            this.manager.createAssignment(args[1], args[2] + "-" + args[3] + "-" + args[4]);
-        } else if(line.match(/^switch (\w+)$/)) {
-            const args = line.match(/^switch (\w+)$/)
-            this.manager.switchCalendar(args[1]);
-        } else if(line.match(/^currentCalendar$/)) {
-            process.stdout.write(this.manager.currentCalendar + "\n> ");
         } else {
-            const args = line.match(/^(\w+)/)
-            console.log("Could not recognize command: " + args[1])
-            process.stdout.write("> ");
+            const command = line.match(/^([a-z]+)/);
+            const commandFormat = CalendarCommands.getCommandFormat(command[1]);
+            
+            if (!commandFormat) {
+                return;
+            }
+
+            const regExp = new CommandInterpreter(commandFormat);
+            const args = regExp.findArgumentValues(line);
+
+            if (args) {
+                this.manager.execute(args);
+            }
         }
     }
 
