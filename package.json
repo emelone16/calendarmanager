@@ -4,7 +4,7 @@
   "description": "",
   "main": "shell.js",
   "scripts": {
-    "test": "start"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",

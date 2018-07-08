@@ -11,6 +11,9 @@ class CalendarManager {
     }
 
     execute(args) {
+        console.log("Command with args sent:");
+        console.log(args);
+
         if (args.command == "create") {
             this.createAssignment(args.event, args.date);
         } else if(args.command == "switch") {

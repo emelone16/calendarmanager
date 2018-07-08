@@ -1,3 +1,5 @@
+const ArgumentManager = require('./ArgumentManager');
+
 class CommandInterpreter {
 
     constructor(format) {
@@ -55,65 +57,23 @@ class CommandInterpreter {
         args.command = lineArgs[0];
 
         while (this.currentFormat < this.format.length) {
-            if (this.format[this.currentFormat] == "<event>") {
-                args.event = this.parseEvent(lineArgs[this.currentFormat]);
+            const stringArg = this.format[this.currentFormat];
+            const currentArg = ArgumentManager[stringArg];
 
-                if (args.event) {
-                    this.currentFormat += 1
-                } else {
-                    console.log("ERROR -> Could not parse event.");
-                    return;
-                }
-            } else if (this.format[this.currentFormat] == "<date>") {
-                args.date = this.parseDate(lineArgs[this.currentFormat]);
+            args = currentArg(lineArgs[this.currentFormat], args);
 
-                if (args.date) {
-                    this.currentFormat += 1
-                } else {
-                    console.log("ERROR -> Could not parse date.");
-                    return;
-                }
-            } else if (this.format[this.currentFormat] == "<calendar>") {
-                args.calendar = this.parseCalendar(lineArgs[this.currentFormat]);
-
-                if (args.calendar) {
-                    this.currentFormat += 1;
-                } else {
-                    console.log("ERROR -> Could not parse calendar.");
-                    return;
-                }
+            const match = stringArg.match(/\<(.+)\>/);
+            const str = match[1];
+            
+            if (args[str]) {
+                this.currentFormat += 1;
+            } else {
+                console.log("ERROR -> Could not parse " + str + ".");
+                return;
             }
         }
 
         return args;
-    }
-
-    parseEvent(arg) {
-        const match = arg.match(/^"(.*)"$/);
-
-        if (match) {
-            return match[1];
-        }
-    }
-
-    parseDate(arg) {
-        const match = arg.match(/(\d+)\-(\d+)\-(\d+)/);
-
-        if (match) {
-            return match[1] + "-" + match[2] + "-" + match[3]
-        }
-    }
-
-    parseCalendar(arg) {
-        const match = arg.match(/[a-zA-Z]{4}[0-9]{3}/);
-
-        if (match) {
-            return arg;
-        }
-
-        if (arg == "primary") {
-            return arg;
-        }
     }
 
 }
