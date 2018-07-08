@@ -1,7 +1,7 @@
 const CalendarAuthorizer = require("./CalendarAuthorizer");
 const CalendarCommands = require('./CalendarCommands');
 const CalendarManager = require("./CalendarManager");
-const CommandInterpreter = require("./CommandInterpreter");
+const CommandInterpreter = require("../CommandInterpreter/CommandInterpreter");
 const readline = require("readline");
 
 class CalendarShell {
@@ -40,8 +40,8 @@ class CalendarShell {
                 return;
             }
 
-            const regExp = new CommandInterpreter(commandFormat);
-            const args = regExp.findArgumentValues(line);
+            const commandExp = new CommandInterpreter(commandFormat);
+            const args = commandExp.findArgumentValues(line);
 
             if (args) {
                 this.manager.execute(args);
