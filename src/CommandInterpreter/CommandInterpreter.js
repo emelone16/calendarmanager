@@ -58,7 +58,7 @@ class CommandInterpreter {
 
         while (this.currentFormat < this.format.length) {
             const stringArg = this.format[this.currentFormat];
-            const currentArg = ArgumentManager[stringArg]
+            const currentArg = ArgumentManager[stringArg];
 
             args = currentArg(lineArgs[this.currentFormat], args);
 
