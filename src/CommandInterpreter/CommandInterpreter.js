@@ -1,4 +1,4 @@
-ArgumentManager = require('./ArgumentManager');
+const ArgumentManager = require('./ArgumentManager');
 
 class CommandInterpreter {
 
