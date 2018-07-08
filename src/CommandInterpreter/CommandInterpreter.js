@@ -39,18 +39,6 @@ class CommandInterpreter {
         return lineArgs;
     }
 
-    checkIncrementFormat(arg, args) {
-        const match = arg.match(/\<(.+)\>/)
-        const str = match[1];
-
-        if (args[str]) {
-            this.currentFormat += 1;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     findArgumentValues(line) {
         var lineArgs = this.splitLineIntoArgs(line);
         var args = {};
@@ -74,8 +62,13 @@ class CommandInterpreter {
 
             args = currentArg(lineArgs[this.currentFormat], args);
 
-            if (!this.checkIncrementFormat(stringArg, args)) {
-                console.log("ERROR -> Could not parse " + stringArg + ".");
+            const match = stringArg.match(/\<(.+)\>/);
+            const str = match[1];
+            
+            if (args[str]) {
+                this.currentFormat += 1;
+            } else {
+                console.log("ERROR -> Could not parse " + str + ".");
                 return;
             }
         }
